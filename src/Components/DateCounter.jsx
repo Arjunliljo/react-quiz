@@ -1,14 +1,25 @@
 import { useReducer } from "react";
 
 function reducer(state, action) {
-  console.log(state, action);
+  switch (action.type) {
+    case "dec":
+      return { ...state, count: state.count - state.step };
 
-  if (action.type === "dec") return state - 1;
-  if (action.type === "inc") return state + 1;
-  if (action.type === "setCount") return action.payLoad;
-  if (action.type === "reset") return 0;
+    case "inc":
+      return { ...state, count: state.count + state.step };
 
-  throw new Error("undefined type");
+    case "setCount":
+      return { ...state, count: action.payLoad };
+
+    case "setStep":
+      return { ...state, step: action.payLoad };
+
+    case "reset":
+      return { count: 0, step: 1 };
+
+    default:
+      throw new Error("Unknown Action Type");
+  }
 }
 
 function DateCounter() {
@@ -22,7 +33,7 @@ function DateCounter() {
 
   // This mutates the date object.
   const date = new Date("june 21 2027");
-  date.setDate(date.getDate() + state);
+  date.setDate(date.getDate() + count);
 
   const dec = function () {
     // setCount((count) => count - 1);
@@ -43,6 +54,7 @@ function DateCounter() {
 
   const defineStep = function (e) {
     // setStep(Number(e.target.value));
+    dispatch({ type: "setStep", payLoad: Number(e.target.value) });
   };
 
   const reset = function () {

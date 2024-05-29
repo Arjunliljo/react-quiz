@@ -1,10 +1,17 @@
-import { useState } from "react";
-import DateCounter from "./DateCounter";
+import Header from "./Components/Header";
+import Main from "./Components/Main";
 
 function App() {
   return (
     <>
-      <DateCounter />
+      <div className="app">
+        <Header></Header>
+
+        <Main>
+          <p>1/15</p>
+          <p>Quesition ?</p>
+        </Main>
+      </div>
     </>
   );
 }
