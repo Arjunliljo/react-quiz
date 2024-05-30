@@ -242,10 +242,13 @@ function App() {
   const totalPoints = quesitions.reduce((acc, ques) => acc + ques.points, 0);
 
   useEffect(() => {
-    fetch("http://localhost:8000/questions")
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: "dataRecieved", payload: data }))
-      .catch(() => dispatch({ type: "dataFailed" }));
+    // fetch("http://localhost:8000/questions")
+    //   .then((res) => res.json())
+    //   .then((data) => dispatch({ type: "dataRecieved", payload: data }))
+    //   .catch(() => dispatch({ type: "dataFailed" }));
+
+    // for hosting porpose
+    dispatch({ type: "dataRecieved" });
   }, []);
 
   return (
