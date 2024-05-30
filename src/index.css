@@ -41,11 +41,11 @@ body {
 }
 
 .app-header {
-  width: 66rem;
+  width: 60rem;
   margin-bottom: 4rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .error {
@@ -155,13 +155,7 @@ progress {
   width: 100%;
   text-align: left;
 }
-
-.btn-option.correct {
-  background-color: var(--color-theme);
-  border: 2px solid var(--color-theme);
-  color: var(--color-light);
-}
-.btn-option.wrong {
+.wrong {
   background-color: var(--color-accent);
   border: 2px solid var(--color-accent);
   color: var(--color-darkest);
@@ -169,6 +163,14 @@ progress {
 
 .answer {
   transform: translateX(2rem);
+  background-color: rgb(248, 80, 80);
+  border: 2px solid rgb(248, 80, 80);
+  color: white;
+}
+.correct {
+  background-color: var(--color-theme);
+  border: 2px solid var(--color-theme);
+  color: var(--color-light);
 }
 
 .result {
