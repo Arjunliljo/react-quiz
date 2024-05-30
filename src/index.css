@@ -3,7 +3,7 @@
   --color-dark: #495057;
   --color-medium: #ced4da;
   --color-light: #f1f3f5;
-
+  --react-blue: #61dafb;
   --color-theme: #1098ad;
   --color-accent: #ffa94d;
 }
@@ -46,6 +46,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 2rem;
 }
 
 .error {
