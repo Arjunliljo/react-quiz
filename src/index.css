@@ -143,6 +143,9 @@ progress {
 .btn-ui {
   float: right;
 }
+.btn-retry {
+  margin: 0 auto;
+}
 
 .options {
   display: flex;

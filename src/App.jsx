@@ -6,6 +6,9 @@ import Main from "./Components/Main";
 import { useReducer } from "react";
 import StartScreen from "./Components/StartScreen";
 import Quesitions from "./Components/Quesitions";
+import NextQuestion from "./Components/NextQuestion";
+import Progress from "./Components/Progress";
+import FinishedScreen from "./Components/FinishedScreen";
 
 const initialData = {
   quesitions: [],
@@ -15,6 +18,7 @@ const initialData = {
   index: 0,
   answer: null,
   points: 0,
+  highScore: 0,
 };
 
 function reducer(state, action) {
@@ -39,6 +43,29 @@ function reducer(state, action) {
             : state.points,
       };
 
+    case "nextQuestion":
+      return {
+        ...state,
+        answer: null,
+        index: state.index + 1,
+      };
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+        highScore:
+          state.points > state.highScore ? state.points : state.highScore,
+      };
+
+    case "reset":
+      return {
+        ...state,
+        status: "active",
+        index: 0,
+        answer: null,
+        points: 0,
+      };
+
     default:
       throw new Error("Unknown Error");
   }
@@ -47,7 +74,9 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialData);
 
-  const { quesitions, status, index, answer } = state;
+  const { quesitions, status, index, answer, points, highScore } = state;
+
+  const totalPoints = quesitions.reduce((acc, ques) => acc + ques.points, 0);
 
   useEffect(() => {
     fetch("http://localhost:8000/questions")
@@ -68,10 +97,33 @@ function App() {
             <StartScreen length={quesitions.length} dispatch={dispatch} />
           )}
           {status === "active" && (
-            <Quesitions
-              quesition={quesitions[index]}
+            <>
+              <Progress
+                length={quesitions.length}
+                index={index}
+                points={points}
+                totalPoints={totalPoints}
+              />
+              <Quesitions
+                quesition={quesitions[index]}
+                dispatch={dispatch}
+                answer={answer}
+              />
+
+              <NextQuestion
+                dispatch={dispatch}
+                index={index}
+                answer={answer}
+                length={quesitions.length}
+              />
+            </>
+          )}
+          {status === "finished" && (
+            <FinishedScreen
+              points={points}
+              totalPoints={totalPoints}
               dispatch={dispatch}
-              answer={answer}
+              highScore={highScore}
             />
           )}
         </Main>
