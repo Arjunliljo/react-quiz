@@ -155,7 +155,7 @@ const ques = [
 const SECS_PER_QUESTION = 30;
 
 const initialData = {
-  quesitions: [],
+  quesitions: ques,
 
   //loading, ready, error, active, finished
   status: "Loading",
@@ -169,10 +169,10 @@ const initialData = {
 function reducer(state, action) {
   switch (action.type) {
     case "dataRecieved":
-      return { ...state, status: "Ready", quesitions: action.payload };
+      return { ...state, status: "Ready" };
 
     case "dataFailed":
-      return { ...state, status: "Ready", quesitions: ques };
+      return { ...state, status: "Ready" };
 
     case "start":
       return {
