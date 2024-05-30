@@ -262,3 +262,36 @@ progress {
   font-size: inherit;
   padding: 0.8rem;
 }
+
+@media only screen and (max-width: 768px) {
+  /* Adjust styles for phone screens here */
+
+  .app {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .main {
+    width: 100%; /* Make main content full width */
+  }
+
+  .app-header {
+    width: 100%; /* Make header full width */
+  }
+
+  h1 {
+    font-size: 3.6rem; /* Adjust heading size */
+  }
+
+  .options {
+    flex-direction: column; /* Stack options vertically */
+  }
+
+  .btn {
+    font-size: 1.6rem; /* Adjust button size */
+    padding: 0.8rem 1.6rem; /* Adjust padding */
+  }
+
+  /* Adjust other elements as needed */
+}

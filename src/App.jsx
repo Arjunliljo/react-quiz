@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import Header from "./Components/Header";
 import Loader from "./Components/Loader";
 import Error from "./Components/Error";
 import Main from "./Components/Main";
-import { useReducer } from "react";
 import StartScreen from "./Components/StartScreen";
 import Quesitions from "./Components/Quesitions";
 import NextQuestion from "./Components/NextQuestion";
 import Progress from "./Components/Progress";
 import FinishedScreen from "./Components/FinishedScreen";
+import Footer from "./Components/Footer";
+import Timer from "./Components/Timer";
+
+const SECS_PER_QUESTION = 30;
 
 const initialData = {
   quesitions: [],
@@ -19,6 +22,7 @@ const initialData = {
   answer: null,
   points: 0,
   highScore: 0,
+  secondsRemaining: null,
 };
 
 function reducer(state, action) {
@@ -30,7 +34,11 @@ function reducer(state, action) {
       return { ...state, status: "Error" };
 
     case "start":
-      return { ...state, status: "active" };
+      return {
+        ...state,
+        status: "active",
+        secondsRemaining: SECS_PER_QUESTION * state.quesitions.length,
+      };
 
     case "newAnswer":
       const quesition = state.quesitions.at(state.index);
@@ -57,24 +65,37 @@ function reducer(state, action) {
           state.points > state.highScore ? state.points : state.highScore,
       };
 
-    case "reset":
+    case "tick":
       return {
         ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 ? "finished" : state.status,
+      };
+
+    case "reset":
+      return {
+        ...initialData,
         status: "active",
-        index: 0,
-        answer: null,
-        points: 0,
+        quesitions: state.quesitions,
       };
 
     default:
-      throw new Error("Unknown Error");
+      throw new Error("Unknown Action");
   }
 }
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialData);
 
-  const { quesitions, status, index, answer, points, highScore } = state;
+  const {
+    quesitions,
+    status,
+    index,
+    answer,
+    points,
+    highScore,
+    secondsRemaining,
+  } = state;
 
   const totalPoints = quesitions.reduce((acc, ques) => acc + ques.points, 0);
 
@@ -109,13 +130,18 @@ function App() {
                 dispatch={dispatch}
                 answer={answer}
               />
-
-              <NextQuestion
-                dispatch={dispatch}
-                index={index}
-                answer={answer}
-                length={quesitions.length}
-              />
+              <Footer>
+                <Timer
+                  dispatch={dispatch}
+                  secondsRemaining={secondsRemaining}
+                />
+                <NextQuestion
+                  dispatch={dispatch}
+                  index={index}
+                  answer={answer}
+                  length={quesitions.length}
+                />
+              </Footer>
             </>
           )}
           {status === "finished" && (
