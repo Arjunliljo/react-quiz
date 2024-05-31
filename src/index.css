@@ -267,6 +267,15 @@ progress {
 @media only screen and (max-width: 768px) {
   /* Adjust styles for phone screens here */
 
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  h3 {
+    text-align: center;
+  }
+
   .app {
     flex-direction: column; /* Stack elements vertically */
     align-items: center;
